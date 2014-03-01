@@ -49,7 +49,7 @@
 	
 	// Regiser for HUD callbacks so we can remove it from the window at the right time
 	HUD.delegate = self;
-	
+	HUD.blurBackground = YES;
 	// Show the HUD while the provided method executes in a new thread
 	[HUD showWhileExecuting:@selector(myTask) onTarget:self withObject:nil animated:YES];
 }
