@@ -6,7 +6,8 @@
 
 #import "MBProgressHUD.h"
 #import <tgmath.h>
-#import "UIImage+ImageEffects.h"
+#import "UIImage+Blur.h"
+#import "UIView+Screenshot.h"
 
 
 #if __has_feature(objc_arc)
@@ -681,24 +682,8 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 			break; // maybe the window isn't set opaque!
 		}
 	}
-    
-	CGRect renderRect = [viewToRender convertRect:rect fromView:self];
-    
-	UIGraphicsBeginImageContextWithOptions(renderRect.size, YES, 0);
-    
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    
-    // Rotate the context
-    CGContextTranslateCTM(context, 0.0, renderRect.size.height);
-    CGContextScaleCTM(context, 1.0, -1.0);
-    
-    MB_DRAW_VIEW_IN_RECT(viewToRender, renderRect);
-    
-    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
-    
-    UIGraphicsEndImageContext();
-    
-    UIImage *outputImage = [newImage applyLightEffect];
+    UIImage *blur = [viewToRender screenshot];    
+    UIImage *outputImage = [blur boxblurImageWithBlur:0.2f];
     
     self.hidden = NO;
     
