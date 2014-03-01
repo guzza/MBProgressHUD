@@ -355,6 +355,8 @@ typedef void (^MBProgressHUDCompletionBlock)();
  */
 @property (assign) BOOL dimBackground;
 
+
+@property (assign) BOOL blurBackground;
 /*
  * Grace period is the time (in seconds) that the invoked method may be run without 
  * showing the HUD. If the task finishes before the grace time runs out, the HUD will

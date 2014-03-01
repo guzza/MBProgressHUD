@@ -12,6 +12,7 @@
 		D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = D286A7521518C70F00E13FB8 /* MBProgressHUD.m */; };
 		D286A75E1518C89600E13FB8 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A75D1518C89600E13FB8 /* UIKit.framework */; };
 		D286A76F1518CAAD00E13FB8 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D286A76E1518CAAD00E13FB8 /* CoreGraphics.framework */; };
+		FA889C7118C295B800185B18 /* UIImage+ImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FA889C7018C295B800185B18 /* UIImage+ImageEffects.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -35,6 +36,8 @@
 		D286A7521518C70F00E13FB8 /* MBProgressHUD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = SOURCE_ROOT; };
 		D286A75D1518C89600E13FB8 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D286A76E1518CAAD00E13FB8 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FA889C6F18C295B800185B18 /* UIImage+ImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageEffects.h"; sourceTree = SOURCE_ROOT; };
+		FA889C7018C295B800185B18 /* UIImage+ImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageEffects.m"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +95,8 @@
 				D286A7511518C70F00E13FB8 /* MBProgressHUD.h */,
 				D286A7521518C70F00E13FB8 /* MBProgressHUD.m */,
 				1315DD72178044770032507D /* Supporting Files */,
+				FA889C6F18C295B800185B18 /* UIImage+ImageEffects.h */,
+				FA889C7018C295B800185B18 /* UIImage+ImageEffects.m */,
 			);
 			path = MBProgressHUD;
 			sourceTree = "<group>";
@@ -148,6 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA889C7118C295B800185B18 /* UIImage+ImageEffects.m in Sources */,
 				D286A7531518C70F00E13FB8 /* MBProgressHUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

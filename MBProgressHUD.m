@@ -6,6 +6,7 @@
 
 #import "MBProgressHUD.h"
 #import <tgmath.h>
+#import "UIImage+ImageEffects.h"
 
 
 #if __has_feature(objc_arc)
@@ -39,7 +40,11 @@
 	#define MB_MULTILINE_TEXTSIZE(text, font, maxSize, mode) [text length] > 0 ? [text \
 		sizeWithFont:font constrainedToSize:maxSize lineBreakMode:mode] : CGSizeZero;
 #endif
-
+#if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
+#define MB_DRAW_VIEW_IN_RECT(view, rect) [view drawViewHierarchyInRect:rect afterScreenUpdates:YES];
+#else
+#define MB_DRAW_VIEW_IN_RECT(view, rect) [view.layer renderInContext:UIGraphicsGetCurrentContext()];
+#endif
 
 static const CGFloat kPadding = 4.f;
 static const CGFloat kLabelFontSize = 16.f;
@@ -104,6 +109,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 @synthesize square;
 @synthesize margin;
 @synthesize dimBackground;
+@synthesize blurBackground;
 @synthesize graceTime;
 @synthesize minShowTime;
 @synthesize graceTimer;
@@ -189,6 +195,7 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 		self.xOffset = 0.0f;
 		self.yOffset = 0.0f;
 		self.dimBackground = NO;
+        self.blurBackground = NO;
 		self.margin = 20.0f;
         self.cornerRadius = 10.0f;
 		self.graceTime = 0.0f;
@@ -636,7 +643,9 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
         CGContextSetGrayFillColor(context, 0.0f, self.opacity);
     }
 
-	
+	if (self.blurBackground) {
+        [self drawBlurredBackgroundInRect:self.bounds];
+    }
 	// Center HUD
 	CGRect allRect = self.bounds;
 	// Draw rounded HUD backgroud rect
@@ -653,6 +662,48 @@ static const CGFloat kDetailsLabelFontSize = 12.f;
 	CGContextFillPath(context);
 
 	UIGraphicsPopContext();
+}
+
+- (void)drawBlurredBackgroundInRect:(CGRect)rect
+{
+	if (self.hidden) {
+		return;
+	}
+    
+	self.hidden = YES; // make the hud invisible as it should not be rendered!
+    
+	// walk up the view hierarchy to find the first view that is opaque
+	UIView* viewToRender = self.superview;
+	while (!viewToRender.opaque) {
+		if (viewToRender.superview) {
+			viewToRender = viewToRender.superview;
+		} else {
+			break; // maybe the window isn't set opaque!
+		}
+	}
+    
+	CGRect renderRect = [viewToRender convertRect:rect fromView:self];
+    
+	UIGraphicsBeginImageContextWithOptions(renderRect.size, YES, 0);
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    // Rotate the context
+    CGContextTranslateCTM(context, 0.0, renderRect.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    MB_DRAW_VIEW_IN_RECT(viewToRender, renderRect);
+    
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    UIImage *outputImage = [newImage applyLightEffect];
+    
+    self.hidden = NO;
+    
+	// render the blured background - note we need to use the extent of the output image, as it is larger as the original rect!
+	CGContextDrawImage(UIGraphicsGetCurrentContext(), rect, outputImage.CGImage);
 }
 
 #pragma mark - KVO
